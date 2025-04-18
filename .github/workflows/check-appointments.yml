@@ -29,4 +29,4 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Run script
-        run: check-appointments.py
+        run: python check-appointments.py
