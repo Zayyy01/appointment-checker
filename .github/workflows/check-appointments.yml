@@ -1,0 +1,32 @@
+name: Check appointments before a specified date
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      URL: ${{ secrets.URL }}
+      TARGET_DATE: ${{ vars.DATE }}
+      EMAIL: ${{ secrets.EMAIL }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      DOCTOR: ${{ secrets.DOCTOR }}
+      TYPE: ${{ secrets.TYPE }}
+      DESCRIPTION: ${{ secrets.DESCRIPTION }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies beautifulsoup4
+        run: pip install requests beautifulsoup4
+
+      - name: Run script
+        run: check-appointments.py
